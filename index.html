@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Worms Clone</title>
+  <style>
+    html, body { margin: 0; padding: 0; background: #1a1a2e; height: 100%; font-family: monospace; color: #eee; }
+    body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+    #game { box-shadow: 0 0 30px rgba(0,0,0,0.6); }
+    #help { margin-top: 12px; font-size: 13px; opacity: 0.85; text-align: center; line-height: 1.5; }
+    kbd { background:#333; padding:2px 6px; border-radius:3px; border:1px solid #555; }
+  </style>
+</head>
+<body>
+  <div id="game"></div>
+  <div id="help">
+    <kbd>←</kbd>/<kbd>→</kbd> mover &nbsp;·&nbsp;
+    <kbd>↑</kbd>/<kbd>↓</kbd> apuntar &nbsp;·&nbsp;
+    <kbd>Espacio</kbd> (mantener) cargar y disparar &nbsp;·&nbsp;
+    <kbd>W</kbd> saltar &nbsp;·&nbsp;
+    <kbd>Enter</kbd> terminar turno
+  </div>
+  <script src="phaser.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
