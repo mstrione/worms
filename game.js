@@ -12,6 +12,8 @@ const WORLD_W = 2800;
 const WORLD_H = 1200;
 const WATER_Y = 1000;       // nivel del mar
 const GRAVITY = 600;
+const GROUND_FRICTION = 9;   // fricción en el suelo (1/s) — frena el deslizamiento tras explosiones
+const AIR_DRAG = 0.5;        // resistencia del aire (1/s) — leve, no mata los saltos
 
 const TEAM_PRESETS = [
   { name: 'Rojo',    color: 0xff5555 },
@@ -1143,6 +1145,9 @@ class MainScene extends Phaser.Scene {
 
   simulateWorm(w, dt) {
     w.vy += GRAVITY * dt;
+    const drag = w.onGround ? GROUND_FRICTION : AIR_DRAG;
+    w.vx -= w.vx * Math.min(1, drag * dt);
+    if (Math.abs(w.vx) < 3) w.vx = 0;
     const steps = 4;
     const sx = (w.vx * dt) / steps;
     const sy = (w.vy * dt) / steps;
