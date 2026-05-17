@@ -300,6 +300,15 @@ class MainScene extends Phaser.Scene {
     } catch (e) {}
   }
 
+  playHitSound() {
+    // Sonido "uuhhh" cuando un gusano recibe un impacto y sobrevive.
+    try {
+      const a = new Audio('hit.mp3');
+      a.volume = 0.9;
+      a.play().catch(() => {});
+    } catch (e) {}
+  }
+
   killWorm(w) {
     if (!w.alive) return;
     w.alive = false;
@@ -1171,6 +1180,17 @@ class MainScene extends Phaser.Scene {
         w.vy = 0;
       }
     }
+
+    // Fricción: el gusano deja de deslizarse
+    if (w.onGround) {
+      // rozamiento fuerte del suelo (retiene ~5% de vx por segundo)
+      w.vx *= Math.pow(0.05, dt);
+      if (Math.abs(w.vx) < 6) w.vx = 0;
+    } else {
+      // resistencia del aire leve
+      w.vx *= Math.pow(0.6, dt);
+    }
+
     if (w.x < 10) w.x = 10;
     if (w.x > WORLD_W - 10) w.x = WORLD_W - 10;
     if (w.y > WATER_Y - 4) {
@@ -1301,6 +1321,7 @@ class MainScene extends Phaser.Scene {
           w.vy += Math.sin(ang) * force - 80;
           w.onGround = false;
           if (w.hp <= 0) this.killWorm(w);
+          else this.playHitSound();
         }
       }
     }
